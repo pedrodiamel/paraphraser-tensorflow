@@ -184,7 +184,7 @@ def parse_arguments():
     parser.add_argument('--epochs', type=int, default=3, help="Number of epochs to train")
     parser.add_argument('--lr', type=float, default=1e-3, help="Learning rate")
     parser.add_argument('--batch_size', type=int, default=64, help="Mini batch size")
-    parser.add_argument('--max_seq_length', type=int, default=40, help="Maximum sequence length.  Sentence lengths beyond this are truncated.")
+    parser.add_argument('--max_seq_length', type=int, default=20, help="Maximum sequence length.  Sentence lengths beyond this are truncated.")
     parser.add_argument('--hidden_size', type=int, default=300, help="Hidden dimension size")
     parser.add_argument('--keep_prob', type=float, default=0.8, help="Keep probability for dropout")
     parser.add_argument('--decoder', type=str, choices=['greedy', 'sample'], help="Decoder type")

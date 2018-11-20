@@ -37,40 +37,17 @@ def dataset_config():
     dataset = [
         { 
             'maxlen': 5,
-            'train': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.train.5',
-            'dev': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.dev.5',
-            'test': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.test.5' 
+            'train': 'model/cmds.txt.5',
+            'dev': 'model/cmds.txt.5',
+            'test': 'model/cmds.txt.5' 
         },
         { 
             'maxlen': 10,
-            'train': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.train.10',
-            'dev': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.dev.10',
-            'test': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.test.10' 
-        },
-        { 
-            'maxlen': 20,
-            'train': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.train.20',
-            'dev': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.dev.20',
-            'test': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.test.20' 
-        },
-        { 
-            'maxlen': 30,
-            'train': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.train.30',
-            'dev': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.dev.30',
-            'test': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.test.30' 
-        },
-        { 
-            'maxlen': 40,
-            'train': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.train.40',
-            'dev': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.dev.40',
-            'test': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.test.40' 
-        },
-        { 
-            'maxlen': 50,
-            'train': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.train.50',
-            'dev': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.dev.50',
-            'test': '/media/sdb/datasets/aggregate_paraphrase_corpus_0/dataset.test.50' 
+            'train': 'model/cmds.txt.10',
+            'dev': 'model/cmds.txt.10',
+            'test': 'model/cmds.txt.10' 
         }
+
     ]
 
     return dataset

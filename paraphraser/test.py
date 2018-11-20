@@ -1,11 +1,13 @@
+
 import tensorflow as tf
 from embeddings import load_sentence_embeddings
 from preprocess_data import preprocess_batch
 from six.moves import input
-from lstm_model_beam import lstm_model
+from lstm_model import lstm_model
 import numpy as np
 from pprint import pprint as pp
 
+import pandas as pd
 
 class Paraphraser(object):
     '''Heart of the paraphraser model.  This class loads the checkpoint
@@ -24,8 +26,6 @@ class Paraphraser(object):
         self.checkpoint = checkpoint
         gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.5)
         self.sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
-        #self.sess = tf.Session()
-        
         self.model = lstm_model(self.sess, 'infer', 300, self.embedding, self.start_id, self.end_id, self.mask_id)
         saver = tf.train.Saver()
         saver.restore(self.sess, checkpoint)
@@ -125,21 +125,58 @@ class Paraphraser(object):
             translated_predictions.append(' '.join(translated))
         return translated_predictions
 
-def main():
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--checkpoint', type=str, help='Checkpoint path')
-    args = parser.parse_args()
-    paraphraser = Paraphraser(args.checkpoint)
 
-    while 1:
-        source_sentence = input("Source: ")
-        #p = paraphraser.greedy_paraphrase(source_sentence)
-        #print(p)
-        paraphrases = paraphraser.sample_paraphrase(source_sentence, sampling_temp=0.75, how_many=1 )
-        for i, paraphrase in enumerate(paraphrases):
-            print("Paraph #{}: {}".format(i, paraphrase))
+def test_paraphraser():
+    
+    data_test=[
+        "with the help of captain picard, the borg will be prepared for everything.",
+        "you seem to be an excellent burglar when the time comes.",
+        "overall, i that it's a decent buy, and am happy that i own it.",
+        "oh, that's a handsome women, that is",        
+    ]
+    
+    paraphraser = Paraphraser( 'model/paraphrase-model/model-171856' )
+    
+    with open('output.txt', 'w') as f:
+        for source_sentence in data_test:
+            #source_sentence = data_test[0]   
+            paraphrases = paraphraser.sample_paraphrase(source_sentence, sampling_temp=0.75, how_many=3)
+            srtsource = "Source: {}".format(source_sentence)
+            print(srtsource); 
+            f.write( srtsource + '\n') 
+            for i, paraphrase in enumerate(paraphrases):
+                srtoutput = "Paraph #{}: {}".format(i, paraphrase)
+                print(srtoutput)
+                f.write(srtoutput + '\n')
+
+                
+def test_cmds():
+    
+    df = pd.read_csv( 'data/data_paraphraser.csv' )
+    index_subset = df['Index_subset']
+    indexs = np.unique( index_subset )
+    cmds = []
+    for indx in indexs:
+        i = np.where( index_subset == indx )[0]
+        j = [ s for s in i if len(df['Command'][s].split())>3 ]
+        if len(j) == 0: continue
+        cmds.append( df['Command'][j[0]] )
+    
+    paraphraser = Paraphraser( 'model/paraphrase-model/model-171856' )
+    with open('output.txt', 'w') as f:
+        for source_sentence in cmds:
+            #source_sentence = data_test[0]   
+            paraphrases = paraphraser.sample_paraphrase(source_sentence, sampling_temp=0.75, how_many=3)
+            srtsource = "Source: {}".format(source_sentence)
+            print(srtsource); 
+            f.write( srtsource + '\n') 
+            for i, paraphrase in enumerate(paraphrases):
+                srtoutput = "Paraph #{}: {}".format(i, paraphrase)
+                print(srtoutput)
+                f.write(srtoutput + '\n')
+    
+
 
 if __name__ == '__main__':
-    main()
+    test_cmds()
 
